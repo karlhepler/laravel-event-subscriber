@@ -1,0 +1,18 @@
+{
+    "name": "oldtimeguitarguy/laravel-event-subscriber",
+    "description": "This makes your event subscribers a little cleaner",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Karl Hepler",
+            "email": "khepler@brandmovers.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "OldTimeGuitarGuy\\LaravelEventSubscriber": "src/OldTimeGuitarGuy/LaravelEventSubscriber/"
+        }
+    }
+}
