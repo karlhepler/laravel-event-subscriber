@@ -91,7 +91,7 @@ class EventSubscriber
 
         return array_first($classmap, function($key, $path) use ($eventName) {
             $isMatch = preg_match('/'.$eventName.'$/', $path, $matches) === 1;
-            return $isMatch && class_exists($matches[1]);
+            return $isMatch && class_exists(array_get($matches, 1));
         }, null);
     }
 
