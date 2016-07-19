@@ -29,7 +29,7 @@ class MakeEventSubscriber extends Command
      */
     public function handle()
     {
-        $name = $this->arguments('name');
+        $name = $this->argument('name');
 
         if ( $this->subscriberExists($name) ) {
             return $this->error($this->path($name) . ' already exists!');
@@ -53,6 +53,12 @@ class MakeEventSubscriber extends Command
      */
     protected function createSubscriber($name)
     {
+        // Make the directory if necessary
+        if (! File::exists($this->dir()) ) {
+            File::makeDirectory($this->dir());
+        }
+
+        // Create the file
         File::put($this->path($name), $this->populateStub($name, $this->stub()));
     }
 
@@ -101,6 +107,16 @@ class MakeEventSubscriber extends Command
      */
     private function path($name)
     {
-        return app_path("Subscribers/{$name}.php");
+        return $this->dir() . "/{$name}.php";
+    }
+
+    /**
+     * Get the output directory
+     *
+     * @return string
+     */
+    private function dir()
+    {
+        return app_path('Subscribers');
     }
 }
