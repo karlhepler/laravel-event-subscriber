@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Subscribers;
+
+use OldTimeGuitarGuy\LaravelEventSubscriber\EventSubscriber;
+
+class DummyClass extends EventSubscriber
+{
+    //
+}

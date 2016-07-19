@@ -55,6 +55,14 @@ class EventSubscriber
         // The method name starts with "on", so remove that
         $eventName = substr($method->name, 2);
 
+        // First check custom event classmap
+        $event = $this->checkCustomEventClassmap($eventName);
+
+        // If an event is returned, then just return that!
+        if (! is_null($event) ) {
+            return $event;
+        }
+
         // Return the first match or null
         $path = array_first(
             $this->getEventSubDirectories(),
@@ -67,6 +75,24 @@ class EventSubscriber
 
         // All's good! Return the full event classname
         return "App\\Events\\{$path}\\{$eventName}";
+    }
+
+    /**
+     * Check the custom event classmap
+     * & return the fully-qualified classname
+     * if the event exists
+     *
+     * @param  string $eventName
+     * @return string|null
+     */
+    private function checkCustomEventClassmap($eventName)
+    {
+        $classmap = config("event_subscriber.custom_event_classmap", []);
+
+        return array_first($classmap, function($key, $path) use ($eventName) {
+            $isMatch = preg_match('/'.$eventName.'$/', $path, $matches) === 1;
+            return $isMatch && class_exists($matches[1]);
+        }, null);
     }
 
     /**
